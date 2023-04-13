@@ -1,0 +1,20 @@
+# azure-pipelines.yml
+
+trigger:
+- none
+
+pool: hosted-linux
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+    
+- script: k6 run script.js
+  displayName: 'Ejecutando k6'
+  
+- task: publish-report-html@0
+  inputs:
+    reportName: 'K6'
+    htmlPath: '$(System.DefaultWorkingDirectory)/summary.html'
+  displayName: 'Publicando HTML'
